@@ -4,4 +4,4 @@ Fattura24 integration for erp v15
 
 #### License
 
-mit
+mit# Fattura_24_ERP
