@@ -1,0 +1,126 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-04-05 02:57:24.902526",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "enabled",
+  "api_settings_section",
+  "api_key",
+  "column_break_bzfq",
+  "api_url",
+  "default_settings_section",
+  "default_payment_method",
+  "column_break_occq",
+  "default_bank_name",
+  "default_iban",
+  "xml_templates_section",
+  "main_template",
+  "payment_template",
+  "row_template"
+ ],
+ "fields": [
+  {
+   "default": "0",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enable Fattura24 Integration"
+  },
+  {
+   "fieldname": "api_settings_section",
+   "fieldtype": "Section Break",
+   "label": "API Settings"
+  },
+  {
+   "fieldname": "api_key",
+   "fieldtype": "Password",
+   "in_list_view": 1,
+   "label": "API Key",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_bzfq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "api_url",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "API URL",
+   "reqd": 1
+  },
+  {
+   "fieldname": "default_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Default Settings"
+  },
+  {
+   "fieldname": "default_payment_method",
+   "fieldtype": "Link",
+   "label": "Default Payment Method",
+   "options": "Mode of Payment"
+  },
+  {
+   "fieldname": "column_break_occq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "default_bank_name",
+   "fieldtype": "Data",
+   "label": "Default Bank Name"
+  },
+  {
+   "fieldname": "default_iban",
+   "fieldtype": "Data",
+   "label": "Default IBAN"
+  },
+  {
+   "fieldname": "xml_templates_section",
+   "fieldtype": "Section Break",
+   "label": "XML Templates"
+  },
+  {
+   "fieldname": "main_template",
+   "fieldtype": "Code",
+   "label": "Main XML Template",
+   "options": "XML"
+  },
+  {
+   "fieldname": "payment_template",
+   "fieldtype": "Code",
+   "label": "Payment XML Template",
+   "options": "XML"
+  },
+  {
+   "fieldname": "row_template",
+   "fieldtype": "Code",
+   "label": "Row XML Template",
+   "options": "XML"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-04-05 03:10:58.536437",
+ "modified_by": "Administrator",
+ "module": "Fattura24",
+ "name": "Fattura24 Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
