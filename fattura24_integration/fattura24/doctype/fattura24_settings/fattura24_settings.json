@@ -18,7 +18,11 @@
   "xml_templates_section",
   "main_template",
   "payment_template",
-  "row_template"
+  "row_template",
+  "bulk_settings_tab",
+  "number_of_invoices",
+  "column_break_ppyr",
+  "gap_between_the_invoice_batch"
  ],
  "fields": [
   {
@@ -97,13 +101,34 @@
    "fieldtype": "Code",
    "label": "Row XML Template",
    "options": "XML"
+  },
+  {
+   "fieldname": "bulk_settings_tab",
+   "fieldtype": "Tab Break",
+   "label": "Bulk Settings"
+  },
+  {
+   "description": "Number of invoices to be sent to Fattura24 At a Time.",
+   "fieldname": "number_of_invoices",
+   "fieldtype": "Data",
+   "label": "Number of Invoices"
+  },
+  {
+   "fieldname": "column_break_ppyr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "After the number of Invoices are sent To Fattura24 Then the gap In Minutes for the next batch to be sent.",
+   "fieldname": "gap_between_the_invoice_batch",
+   "fieldtype": "Float",
+   "label": "Gap Between The Invoice Batch"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-04-05 03:10:58.536437",
+ "modified": "2025-04-13 02:48:40.981915",
  "modified_by": "Administrator",
  "module": "Fattura24",
  "name": "Fattura24 Settings",
