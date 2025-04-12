@@ -4,7 +4,7 @@ frappe.ui.form.on('Sales Invoice', {
         if (frm.doc.docstatus === 1 && !frm.doc.fattura24_id) {
             frm.add_custom_button(__('Send to Fattura24'), function() {
                 frappe.call({
-                    method: 'fattura24_integration.api.fattura24.send_invoice_to_fattura24',
+                    method: 'fattura24_integration.fattura24.api.fattura24.send_invoice_to_fattura24',
                     args: {
                         doc: frm.doc
                     },

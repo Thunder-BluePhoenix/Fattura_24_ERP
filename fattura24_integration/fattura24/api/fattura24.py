@@ -75,19 +75,21 @@ def generate_fattura24_xml(doc, settings=None):
     
     # Replace customer details
     xml_data = xml_data.replace("{% RAGIONE_SOCIALE %}", customer.customer_name or "")
-    xml_data = xml_data.replace("{% PARTITA_IVA %}", customer.tax_id or "")
+    xml_data = xml_data.replace("{% PARTITA_IVA %}", str(customer.custom_vat_code)or "")
     
     # Address details
     if address:
         xml_data = xml_data.replace("{% VIA %}", (address.address_line1 or "") + (f", {address.address_line2}" if address.address_line2 else ""))
-        xml_data = xml_data.replace("{% CAP %}", address.pincode or "")
+        xml_data = xml_data.replace("{% CAP %}", str(address.pincode) or "")
         xml_data = xml_data.replace("{% LOCALITA %}", address.city or "")
         xml_data = xml_data.replace("{% PR %}", address.state or "")
+        xml_data = xml_data.replace("{% IT %}", address.country or "")
     else:
         xml_data = xml_data.replace("{% VIA %}", "")
         xml_data = xml_data.replace("{% CAP %}", "")
         xml_data = xml_data.replace("{% LOCALITA %}", "")
         xml_data = xml_data.replace("{% PR %}", "")
+        xml_data = xml_data.replace("{% IT %}", "")
     
     # Contact details
     if contact:
@@ -104,23 +106,24 @@ def generate_fattura24_xml(doc, settings=None):
                 break
             
         xml_data = xml_data.replace("{% EMAIL %}", email or "")
-        xml_data = xml_data.replace("{% TELEFONO %}", phone or "")
-        xml_data = xml_data.replace("{% PEC %}", contact.get("custom_pec") or "")
-        xml_data = xml_data.replace("{% CODICE_SDI %}", contact.get("custom_sdi_code") or "0000000")
+        xml_data = xml_data.replace("{% TELEFONO %}", str(phone) or "")
+        
     else:
         xml_data = xml_data.replace("{% EMAIL %}", "")
         xml_data = xml_data.replace("{% TELEFONO %}", "")
-        xml_data = xml_data.replace("{% PEC %}", "")
-        xml_data = xml_data.replace("{% CODICE_SDI %}", "0000000")
+
+
+    xml_data = xml_data.replace("{% PEC %}", str(customer.custom_pec) or "")
+    xml_data = xml_data.replace("{% CODICE_SDI %}", str(customer.custom_destination_code) or "0000000")
     
     # Invoice details
-    xml_data = xml_data.replace("{% OGGETTO %}", doc.title or f"Invoice {doc.name}")
-    xml_data = xml_data.replace("{% TOTALE_IMPONIBILE %}", str(doc.total))
+    xml_data = xml_data.replace("{% OGGETTO %}", doc.custom_object or f"Invoice {doc.name}")
+    xml_data = xml_data.replace("{% TOTALE_IMPONIBILE %}", str(doc.custom_grand_total_cost))
     xml_data = xml_data.replace("{% TOTALE_IVA %}", str(doc.total_taxes_and_charges))
     xml_data = xml_data.replace("{% TOTALE_FATTURA %}", str(doc.grand_total))
     
     # Payment details
-    xml_data = xml_data.replace("{% CODICE_PAGAMENTO %}", doc.get("custom_fe_payment_code") or "MP05")  # Default to bank transfer
+    xml_data = xml_data.replace("{% CODICE_PAGAMENTO %}", doc.get("custom_payment_code_") or "MP05")  # Default to bank transfer
     xml_data = xml_data.replace("{% DENOMINAZIONE_BANCA %}", settings.default_bank_name or "")
     xml_data = xml_data.replace("{% IBAN %}", settings.default_iban or "")
     
@@ -137,24 +140,24 @@ def generate_fattura24_xml(doc, settings=None):
     
     # Generate item rows
     item_rows = ""
-    for item in doc.items:
-        row_xml = settings.row_template
-        row_xml = row_xml.replace("{% PRODOTTO_SERVIZIO %}", item.item_code or "")
-        row_xml = row_xml.replace("{% DESCRIZIONE_VOCE %}", item.description or "")
-        row_xml = row_xml.replace("{% QUANTITA %}", str(item.qty))
-        row_xml = row_xml.replace("{% UNITA_DI_MISURA %}", item.uom or "pz")
-        row_xml = row_xml.replace("{% PREZZO %}", str(item.rate))
-        
-        # Get tax rate from tax template
-        tax_rate = "22"  # Default to 22%
-        if item.item_tax_template:
-            tax_template = frappe.get_doc("Item Tax Template", item.item_tax_template)
-            for tax in tax_template.taxes:
-                tax_rate = str(int(tax.tax_rate))
-                break
-        
-        row_xml = row_xml.replace("{% CODICE_ALIQUOTA %}", tax_rate)
-        item_rows += row_xml + "\n"
+    # for item in doc.items:
+    row_xml = settings.row_template
+    row_xml = row_xml.replace("{% PRODOTTO_SERVIZIO %}", doc.name or "")
+    row_xml = row_xml.replace("{% DESCRIZIONE_VOCE %}", doc.custom_object or "")
+    row_xml = row_xml.replace("{% QUANTITA %}", "1")
+    row_xml = row_xml.replace("{% UNITA_DI_MISURA %}", "pz")
+    row_xml = row_xml.replace("{% PREZZO %}", str(doc.grand_total))
+    
+    # Get tax rate from tax template
+    tax_rate = "22"  # Default to 22%
+    if doc.taxes_and_charges:
+        tax_template = frappe.get_doc("Sales Taxes and Charges Template", doc.taxes_and_charges)
+        for tax in tax_template.taxes:
+            tax_rate = str(int(tax.rate))
+            break
+    
+    row_xml = row_xml.replace("{% CODICE_ALIQUOTA %}", tax_rate)
+    item_rows += row_xml + "\n"
     
     xml_data = xml_data.replace("{% ELENCO_RIGHE %}", item_rows)
     
