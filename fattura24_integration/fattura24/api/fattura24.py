@@ -146,7 +146,7 @@ def generate_fattura24_xml(doc, settings=None):
     row_xml = row_xml.replace("{% DESCRIZIONE_VOCE %}", doc.custom_object or "")
     row_xml = row_xml.replace("{% QUANTITA %}", "1")
     row_xml = row_xml.replace("{% UNITA_DI_MISURA %}", "pz")
-    row_xml = row_xml.replace("{% PREZZO %}", str(doc.grand_total))
+    row_xml = row_xml.replace("{% PREZZO %}", str(doc.custom_grand_total_cost))
     
     # Get tax rate from tax template
     tax_rate = "22"  # Default to 22%

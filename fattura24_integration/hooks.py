@@ -139,7 +139,8 @@ doctype_js = {"Sales Invoice": "public/js/sales_invoice.js"}
 # ---------------
 # Hook on document methods and events
 doc_events = {
-            "Sales Invoice": {"before_save": "fattura24_integration.methods.sales_invoice.before_save"}
+            "Sales Invoice": {"before_save": "fattura24_integration.methods.sales_invoice.before_save"},
+            "Mode of Payment": {"before_save": "fattura24_integration.methods.payment_mode.extract_payment_code"}
 }
 # doc_events = {
 # 	"*": {
