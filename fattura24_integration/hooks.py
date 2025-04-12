@@ -44,7 +44,8 @@ app_license = "mit"
 
 # include js in doctype views
 # doctype_js = {"doctype" : "public/js/doctype.js"}
-doctype_js = {"Sales Invoice": "public/js/sales_invoice.js"}
+doctype_js = {"Sales Invoice": "public/js/sales_invoice.js",
+              "Bulk Invoice Log": "public/js/bulk_invoice.js"}
 
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -140,7 +141,8 @@ doctype_js = {"Sales Invoice": "public/js/sales_invoice.js"}
 # Hook on document methods and events
 doc_events = {
             "Sales Invoice": {"before_save": "fattura24_integration.methods.sales_invoice.before_save"},
-            "Mode of Payment": {"before_save": "fattura24_integration.methods.payment_mode.extract_payment_code"}
+            "Mode of Payment": {"before_save": "fattura24_integration.methods.payment_mode.extract_payment_code"},
+            "Bulk Invoice Log": {"on_update_after_submit": "fattura24_integration.methods.bulk_invoice.count_pending_invoices"}
 }
 # doc_events = {
 # 	"*": {
