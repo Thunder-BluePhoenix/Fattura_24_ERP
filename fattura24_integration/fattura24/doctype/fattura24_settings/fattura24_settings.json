@@ -15,6 +15,8 @@
   "column_break_occq",
   "default_bank_name",
   "default_iban",
+  "section_break_hmff",
+  "default_xml_template",
   "xml_templates_section",
   "main_template",
   "payment_template",
@@ -122,13 +124,22 @@
    "fieldname": "gap_between_the_invoice_batch",
    "fieldtype": "Float",
    "label": "Gap Between The Invoice Batch"
+  },
+  {
+   "fieldname": "default_xml_template",
+   "fieldtype": "Button",
+   "label": "Default XML Templates"
+  },
+  {
+   "fieldname": "section_break_hmff",
+   "fieldtype": "Section Break"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-04-13 02:48:40.981915",
+ "modified": "2025-04-13 17:34:07.723018",
  "modified_by": "Administrator",
  "module": "Fattura24",
  "name": "Fattura24 Settings",

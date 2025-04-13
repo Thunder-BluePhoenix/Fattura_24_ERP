@@ -37,7 +37,7 @@ class Fattura24Settings(Document):
         <TotalWithoutTax>{% TOTALE_IMPONIBILE %}</TotalWithoutTax>
         <VatAmount>{% TOTALE_IVA %}</VatAmount>
         <Total>{% TOTALE_FATTURA %}</Total>
-        <FootNotes/>
+        <FootNotes><![CDATA[{% NOTA_PIEDE %}]]></FootNotes>
         <SendEmail>false</SendEmail>
         <UpdateStorage>0</UpdateStorage>
         <Payments>
@@ -51,20 +51,20 @@ class Fattura24Settings(Document):
 
     def get_default_payment_template(self):
         """Return the default payment XML template for Fattura24"""
-        return """            <Payment>
-                <Date>{% DATA_SCADENZA %}</Date>
-                <Amount>{% IMPORTO_SCADENZA %}</Amount>
-                <Paid>false</Paid>
-            </Payment>"""
+        return """<Payment>
+    <Date>{% DATA_SCADENZA %}</Date>
+    <Amount>{% IMPORTO_SCADENZA %}</Amount>
+    <Paid>false</Paid>
+</Payment>"""
 
     def get_default_row_template(self):
         """Return the default row XML template for Fattura24"""
-        return """            <Row>
-                <Code>{% PRODOTTO_SERVIZIO %}</Code>
-                <Description><![CDATA[{% DESCRIZIONE_VOCE %}]]></Description>
-                <Qty>{% QUANTITA %}</Qty>
-                <Um>{% UNITA_DI_MISURA %}</Um>
-                <Price>{% PREZZO %}</Price>
-                <VatCode>{% CODICE_ALIQUOTA %}</VatCode>
-            </Row>"""
+        return """<Row>
+    <Code>{% PRODOTTO_SERVIZIO %}</Code>
+    <Description><![CDATA[{% DESCRIZIONE_VOCE %}]]></Description>
+    <Qty>{% QUANTITA %}</Qty>
+    <Um>{% UNITA_DI_MISURA %}</Um>
+    <Price>{% PREZZO %}</Price>
+    <VatCode>{% CODICE_ALIQUOTA %}</VatCode>
+</Row>"""
 
