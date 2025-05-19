@@ -6,6 +6,7 @@ from datetime import datetime
 import json
 from xml.sax.saxutils import escape
 import re
+from frappe.utils.jinja import render_template
 
 @frappe.whitelist()
 def send_invoice_to_fattura24(doc, method=None):
@@ -112,8 +113,16 @@ def generate_fattura24_xml(doc, settings=None):
         xml_data = xml_data.replace("{% EMAIL %}", "")
         xml_data = xml_data.replace("{% TELEFONO %}", "")
 
+    if customer.custom_pec:
+        xml_data = xml_data.replace("{% PEC %}", str(customer.custom_pec))
+    else:
+        xml_data = xml_data.replace("{% PEC %}", "")
 
-    xml_data = xml_data.replace("{% PEC %}", str(customer.custom_pec) or "")
+
+    if doc.custom_note:
+        xml_data = xml_data.replace("{% NOTA_PIEDE %}", str(customer.custom_note))
+    else:
+        xml_data = xml_data.replace("{% NOTA_PIEDE %}", "")
     xml_data = xml_data.replace("{% CODICE_SDI %}", str(customer.custom_destination_code) or "0000000")
     
     # Invoice details
@@ -137,13 +146,19 @@ def generate_fattura24_xml(doc, settings=None):
             payment_rows += payment_xml + "\n"
     
     xml_data = xml_data.replace("{% ELENCO_SCADENZE %}", payment_rows)
+
+
+
+    fatt_des_doc = frappe.get_doc("Template and Print format Settings")
+    fatt_des = fatt_des_doc.fattura_description
+    description = render_template(fatt_des, {"doc": doc})
     
     # Generate item rows
     item_rows = ""
     # for item in doc.items:
     row_xml = settings.row_template
     row_xml = row_xml.replace("{% PRODOTTO_SERVIZIO %}", doc.name or "")
-    row_xml = row_xml.replace("{% DESCRIZIONE_VOCE %}", doc.custom_object or "")
+    row_xml = row_xml.replace("{% DESCRIZIONE_VOCE %}", description or "")
     row_xml = row_xml.replace("{% QUANTITA %}", "1")
     row_xml = row_xml.replace("{% UNITA_DI_MISURA %}", "pz")
     row_xml = row_xml.replace("{% PREZZO %}", str(doc.custom_grand_total_cost))
