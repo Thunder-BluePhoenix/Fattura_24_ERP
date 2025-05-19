@@ -37,5 +37,47 @@ def populate_custom_object(doc, method):
     # 4. Combine into final format: (monthnumber).(service).(customer slug)
     doc.custom_object = f"{month_number}.{service}.{customer_slug}"
 
+    if month_number == "01":
+        doc.custom_month = "Gennaio"
+    elif month_number == "02":
+        doc.custom_month = "Febbraio"
+    elif month_number == "03":
+        doc.custom_month = "Marzo"
+    elif month_number == "04":
+        doc.custom_month = "Aprile"
+    elif month_number == "05":
+        doc.custom_month = "Maggio"
+    elif month_number == "06":
+        doc.custom_month = "Giugno"
+    elif month_number == "07":
+        doc.custom_month = "Luglio"
+    elif month_number == "08":
+        doc.custom_month = "Agosto"
+    elif month_number == "09":
+        doc.custom_month = "Settembre"
+    elif month_number == "10":
+        doc.custom_month = "Ottobre"
+    elif month_number == "11":
+        doc.custom_month = "Novembre"
+    elif month_number == "12":
+        doc.custom_month = "Dicembre"
+
+
+ 
+    
+# $mesi["01"]="Gennaio";
+# $mesi["02"]="Febbraio";
+# $mesi["03"]="Marzo";
+# $mesi["04"]="Aprile";
+# $mesi["05"]="Maggio";
+# $mesi["06"]="Giugno";
+# $mesi["07"]="Luglio";
+# $mesi["08"]="Agosto";
+# $mesi["09"]="Settembre";
+# $mesi["10"]="Ottobre";
+# $mesi["11"]="Novembre";
+# $mesi["12"]="Dicembre";
+
+
 
 
