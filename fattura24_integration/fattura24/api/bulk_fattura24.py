@@ -193,11 +193,15 @@ def generate_fattura24_xml(doc, settings=None):
     xml_data = xml_data.replace("{% ELENCO_SCADENZE %}", payment_rows)
     
 
-
+    
 
     fatt_des_doc = frappe.get_doc("Template and Print format Settings")
-    fatt_des = fatt_des_doc.fattura_description
-    description = render_template(fatt_des, {"doc": doc})
+    if doc.custom_peneus_hub == 1 and doc.custom_tyre_hotel == 0:
+        fatt_des = fatt_des_doc.fattura_description
+        description = render_template(fatt_des, {"doc": doc})
+    elif doc.custom_tyre_hotel == 1 and doc.custom_peneus_hub == 0:
+        fatt_des = fatt_des_doc.fattura_description_th
+        description = render_template(fatt_des, {"doc": doc})
     # Generate item rows
     item_rows = ""
     # for item in doc.items:
